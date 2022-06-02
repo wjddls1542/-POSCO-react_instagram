@@ -22,3 +22,14 @@ export const checkId = async (users, userId) => {
 export const logoutApi = async userId => {
    return true;
 };
+export const PutUsers = async (users, user, id) => {
+   const findUsersIndex = await users.findIndex(user => user.id === id);
+   const { name, img } = user;
+   if (findUsersIndex === 1) {
+      console.error('not found');
+      return;
+   }
+   const newUsers = [...users];
+   newUsers.splice(findUsersIndex, 1, { ...users[findUsersIndex], name, img });
+   return newUsers;
+};
