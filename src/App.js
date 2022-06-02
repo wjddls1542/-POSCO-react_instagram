@@ -57,10 +57,10 @@ function App() {
                <BrowserRouter>
                   <Routes>
                      <Route path="/" element={<Layout></Layout>}>
-                        <Route index element={<Main></Main>}></Route>
-                        <Route path="/shopping" element={<Main></Main>}></Route>
-                        <Route path="/profile" element={<Profile></Profile>}></Route>
-                        <Route path="/search" element={<Search></Search>}></Route>
+                        <Route index path="/" element={<Main></Main>}></Route>
+                        <Route path="shopping" element={<Main></Main>}></Route>
+                        <Route path="search" element={<Search></Search>}></Route>
+                        <Route path="profile" element={<Profile></Profile>}></Route>
                      </Route>
                      <Route index path="/login" element={<BootstrapLogin></BootstrapLogin>}></Route>
                      <Route index path="/*" element={<Page404></Page404>}></Route>

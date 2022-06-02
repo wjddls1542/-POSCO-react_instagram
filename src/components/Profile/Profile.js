@@ -1,4 +1,3 @@
-import { UserContext } from '../../store/UserContext';
 import { useContext } from 'react';
 import './Profile.css';
 import { Container } from 'reactstrap';
@@ -7,15 +6,10 @@ import ProfileBody from './ProfileBody';
 import { PostContext } from '../../store/PostContext';
 import { FollowContext } from '../../store/FollowContext';
 import Posts from '../Posts/Posts';
+import { useSelector } from 'react-redux';
 
 const Profile = () => {
-   const { users } = useContext(UserContext);
-   const id = Number(localStorage.getItem('id'));
-   const getUser = () => {
-      return users.find(user => id === user.id);
-   };
-
-   const { name, img } = getUser();
+   const { name, img, id } = useSelector(state => state.users.me);
    const { posts, deletePost } = useContext(PostContext);
    const { follows } = useContext(FollowContext);
    const myPosts = () => {

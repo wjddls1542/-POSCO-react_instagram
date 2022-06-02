@@ -1,10 +1,13 @@
 import { Alert, Button, Col, Container, Form, Input, Row } from 'reactstrap';
-import React, { useContext, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 import AuthRouter from '../AuthRouter';
-import { UserContext } from '../../store/UserContext';
+import './Login.css';
+import { useDispatch } from 'react-redux';
+import { login } from '../../store/users';
 
 const BootstrapLogin = () => {
+   const dispatch = useDispatch();
    const [isFail, setIsFail] = useState(false);
    const [user, setUser] = useState({
       id: '',
@@ -16,15 +19,13 @@ const BootstrapLogin = () => {
    };
    const navigate = useNavigate();
 
-   const { users } = useContext(UserContext);
-
-   const onSubmitLogin = e => {
+   const onSubmitLogin = async e => {
       e.preventDefault();
-      const findUser = users.find(data => data.userId === user.id && data.password === user.password);
-      console.log(user);
-      if (findUser) {
+      dispatch(login({ user }));
+      const { isLogin } = await dispatch(login(user)).unwrap();
+      if (isLogin) {
          //로그인 후 로직
-         localStorage.setItem('id', findUser.id);
+         //localStorage.setItem('id', findUser.id);
          navigate('/');
       } else {
          setIsFail(true);

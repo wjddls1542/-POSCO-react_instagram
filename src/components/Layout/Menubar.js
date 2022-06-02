@@ -15,7 +15,7 @@ const Menubar = () => {
                </Link>
             </Col>
             <Col className="Icon">
-               <Link to={'/serch'}>
+               <Link to={'/search'}>
                   <AiOutlineSearch
                      size={30}
                      fill={location.pathname === '/search' ? 'blue' : 'black'}></AiOutlineSearch>
