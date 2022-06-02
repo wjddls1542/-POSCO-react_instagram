@@ -1,33 +1,42 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import './Profile.css';
 import { Container } from 'reactstrap';
 import ProfileHeader from './ProfileHeader';
 import ProfileBody from './ProfileBody';
-import { PostContext } from '../../store/PostContext';
 import { FollowContext } from '../../store/FollowContext';
 import Posts from '../Posts/Posts';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectMyPost } from '../../store/posts';
 
 const Profile = () => {
    const { name, img, id } = useSelector(state => state.users.me);
-   const { posts, deletePost } = useContext(PostContext);
+   const myPosts = useSelector(state => state.posts.myPosts);
    const { follows } = useContext(FollowContext);
-   const myPosts = () => {
-      return posts.filter(post => post.userId === id);
+   const dispatch = useDispatch();
+   const getMyPost = () => {
+      dispatch(selectMyPost());
    };
+   useEffect(() => {
+      getMyPost();
+   }, []);
    const myFollower = () => {
       return follows.filter(follow => follow.following === id);
    };
    const myFollowing = () => {
       return follows.filter(follow => follow.follower === id);
    };
-   console.log([posts, myPosts()]);
+
    return (
       <>
          <ProfileHeader name={name}></ProfileHeader>
          <Container className="ProfileContainer">
-            <ProfileBody img={img} follower={myFollower()} following={myFollowing()} posts={myPosts()}></ProfileBody>
-            <Posts posts={myPosts()} name={name} img={img} deletePost={deletePost}></Posts>
+            <ProfileBody
+               img={img}
+               follower={myFollower()}
+               following={myFollowing()}
+               posts={myPosts.posts}
+               name={name}></ProfileBody>
+            <Posts posts={myPosts.posts} name={name} img={img} postState={myPosts}></Posts>
          </Container>
       </>
    );

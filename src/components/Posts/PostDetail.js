@@ -1,16 +1,11 @@
 import { Button, Container, Modal } from 'reactstrap';
-import { UserContext } from '../../store/UserContext';
+
 import { useContext } from 'react';
 import './PostDetail.css';
+import { useSelector } from 'react-redux';
 
-const PostDetail = ({ isOpen, clickPost, closeModal, onClickDelete }) => {
-   const { users } = useContext(UserContext);
-   const getUser = () => {
-      return users.find(user => user.id === clickPost.userId);
-   };
-   console.log(users);
-   const user = getUser();
-   const myId = Number(localStorage.getItem('id'));
+const PostDetail = ({ isOpen, clickPost, closeModal, onClickDelete, user }) => {
+   const myId = useSelector(state => state.users.myId);
    return (
       <Modal isOpen={isOpen} fullscreen toggle={closeModal}>
          <div className="profileBoardModalHeader">
