@@ -1,6 +1,5 @@
 import { Alert, Button, Col, Container, Form, Input, Row } from 'reactstrap';
 import React, { useContext, useState } from 'react';
-import { Users } from '../../data/User';
 import { Navigate, useNavigate } from 'react-router';
 import AuthRouter from '../AuthRouter';
 import { UserContext } from '../../store/UserContext';

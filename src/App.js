@@ -15,7 +15,7 @@ import { PostContext } from './store/PostContext';
 import { FollowContext } from './store/FollowContext';
 import { Post } from './data/Post';
 import { Follow } from './data/Follow';
-
+import Search from './components/Search/Search';
 function App() {
    const [users, setUsers] = useState(Users);
    const insertUsers = user => {
@@ -60,6 +60,7 @@ function App() {
                         <Route index element={<Main></Main>}></Route>
                         <Route path="/shopping" element={<Main></Main>}></Route>
                         <Route path="/profile" element={<Profile></Profile>}></Route>
+                        <Route path="/search" element={<Search></Search>}></Route>
                      </Route>
                      <Route index path="/login" element={<BootstrapLogin></BootstrapLogin>}></Route>
                      <Route index path="/*" element={<Page404></Page404>}></Route>
