@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Post } from '../data/Post';
-import { deletePostById, getPostById, getPostByOther, getPostByUserId } from './postsAPI';
+import { deletePostById, getPostById, getPostByOther, getPostByUserId, postPost } from './postsAPI';
 
 const initialState = {
    posts: Post,
@@ -58,6 +58,16 @@ export const selectOtherPost = createAsyncThunk(SELECT_OTHER_POST, async (payloa
    return;
 });
 
+export const insertPosts = createAsyncThunk(INSERT_POST, async (payload, thunkAPI) => {
+   const { myId } = thunkAPI.getState().users;
+   const { posts } = thunkAPI.getState().posts;
+
+   const { content, img } = payload;
+   const post = { content, img, userId: Number(myId) };
+   const myPosts = await postPost(posts, post);
+   return myPosts;
+});
+
 export const postsSlice = createSlice({
    name: 'posts',
    initialState,
@@ -87,6 +97,9 @@ export const postsSlice = createSlice({
             return { ...state, myPosts: newMyPosts };
          })
          .addCase(deletePost.fulfilled, (state, { payload }) => {
+            return { ...state, posts: payload };
+         })
+         .addCase(insertPosts.fulfilled, (state, { payload }) => {
             return { ...state, posts: payload };
          });
    },
