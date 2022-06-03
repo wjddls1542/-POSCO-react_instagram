@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router';
-import { Spinner } from 'reactstrap';
+import { Button, Container, Input, Modal, Spinner } from 'reactstrap';
 import { selectUserById } from '../../store/users';
-import PostDetail from './PostDetail';
+import { GoDiffAdded } from 'react-icons/go';
 import './Posts.css';
-import { deletePost, selectMyPost, selectOtherPost } from '../../store/posts';
+import '../Profile/ProfileBody.css';
+import { deletePost, insertPosts, selectMyPost, selectOtherPost } from '../../store/posts';
+import PostDetail from './PostDetail';
 
 const Posts = ({ postState, posts }) => {
    const [isOpen, setIsOpen] = useState(false);
@@ -30,13 +32,16 @@ const Posts = ({ postState, posts }) => {
       setIsOpen(false);
    };
    const onClickDelete = postId => {
+      // deletePost(postId);
       dispatch(deletePost(postId));
       dispatch(location.pathname === '/profile' ? selectMyPost() : selectOtherPost());
       setIsOpen(false);
+      // closeModal();
    };
+
    return (
       <div className="Posts">
-         {postState.loading ? (
+         {postState?.loading ? (
             <Spinner>Loading...</Spinner>
          ) : (
             posts?.map(post => (
@@ -47,6 +52,8 @@ const Posts = ({ postState, posts }) => {
          )}
          {clickPost ? (
             <PostDetail
+               // name={name}
+               // img={img}
                isOpen={isOpen}
                clickPost={clickPost}
                closeModal={closeModal}

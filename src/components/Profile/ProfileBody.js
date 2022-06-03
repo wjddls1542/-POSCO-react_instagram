@@ -17,7 +17,7 @@ const ProfileBody = ({
    const modalOpen = () => {
       setIsOpen(true);
    };
-
+   console.log(posts);
    return (
       <>
          <div className="profileBodyBox">
