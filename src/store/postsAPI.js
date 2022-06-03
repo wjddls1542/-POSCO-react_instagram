@@ -52,3 +52,12 @@ export const putPost = async (posts, post, id) => {
       throw error;
    }
 };
+
+export const getPostByKey = async (posts, key, userId) => {
+   try {
+      const findPostByUserId = await posts.filter(post => userId === post.userId || key.test(post.content));
+      return findPostByUserId;
+   } catch (error) {
+      throw error;
+   }
+};

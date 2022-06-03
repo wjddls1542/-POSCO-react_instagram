@@ -6,4 +6,11 @@ export const Users = [
       img: '/img/profile/profile.jpg',
       password: '1234',
    },
+   {
+      id: 4,
+      name: 'wjd',
+      userId: 'wjd',
+      img: '/img/profile/profile.jpg',
+      password: '1234',
+   },
 ];

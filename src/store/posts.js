@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Post } from '../data/Post';
-import { deletePostById, getPostById, getPostByOther, getPostByUserId, postPost } from './postsAPI';
+import { deletePostById, getPostById, getPostByKey, getPostByOther, getPostByUserId, postPost } from './postsAPI';
 
 const initialState = {
    posts: Post,
@@ -26,6 +26,7 @@ const SELECT_OTHER_POST = 'SELECT_OTHER_POST';
 const UPDATE_POST = 'UPDATE_POST';
 const DELETE_POST = 'DELETE_POST';
 const INSERT_POST = 'INSERT_POST';
+const SELECT_POST_BY_KEY = 'SELECT_POST_BY_KEY';
 
 export const selectMyPost = createAsyncThunk(SELECT_MY_POST, async (payload, thunkAPI) => {
    const { myId } = thunkAPI.getState().users;
@@ -101,8 +102,48 @@ export const postsSlice = createSlice({
          })
          .addCase(insertPosts.fulfilled, (state, { payload }) => {
             return { ...state, posts: payload };
+         })
+         .addCase(selectPostsByKey.pending, (state, { payload }) => {
+            const newOtherPosts = { ...state.otherPosts };
+            newOtherPosts.loading = true;
+            return { ...state, otherPosts: newOtherPosts };
+         })
+         .addCase(selectPostsByKey.fulfilled, (state, { payload }) => {
+            const newOtherPosts = { ...state.otherPosts };
+            newOtherPosts.loading = false;
+            if (payload) {
+               newOtherPosts.posts = payload;
+               return { ...state, otherPosts: newOtherPosts };
+            } else {
+               newOtherPosts.message = '글이 없습니다.';
+               return { ...state, otherPosts: newOtherPosts };
+            }
+         })
+         .addCase(selectPostsByKey.rejected, (state, { error }) => {
+            const newOtherPosts = { ...state.otherPosts };
+            newOtherPosts.loading = false;
+            newOtherPosts.message = error.message;
+            return { ...state, otherPosts: newOtherPosts };
+         })
+         .addCase(selectOtherPost.fulfilled, (state, { payload }) => {
+            const newMyPosts = { ...state.otherPosts };
+            newMyPosts.loading = false;
+            if (payload) {
+               newMyPosts.posts = payload;
+               return { ...state, otherPosts: newMyPosts };
+            } else {
+               newMyPosts.message = '글이 없습니다';
+               return { ...state, otherPosts: newMyPosts };
+            }
          });
    },
+});
+
+export const selectPostsByKey = createAsyncThunk(SELECT_POST_BY_KEY, async ({ searchKey, userId }, thunkAPI) => {
+   const reg = new RegExp(searchKey, 'g');
+   const { posts } = thunkAPI.getState().posts;
+   const myPosts = await getPostByKey(posts, reg, userId);
+   return myPosts;
 });
 
 export default postsSlice.reducer;
