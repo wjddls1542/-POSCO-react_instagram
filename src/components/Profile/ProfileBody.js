@@ -1,5 +1,5 @@
 import './ProfileBody.css';
-import { Button } from 'reactstrap';
+import { Button, Spinner } from 'reactstrap';
 import { useState } from 'react';
 import ProfileUpdate from './ProfileUpdate';
 
@@ -26,17 +26,17 @@ const ProfileBody = ({
             </div>
             <div className="profileTextBox">
                <div>
-                  {posts.length}
+                  {posts.loading ? <Spinner>Loading...</Spinner> : posts.posts.length}
                   <br></br>
                   게시물
                </div>
                <div>
-                  {follower.length}
+                  {follower.loading ? <Spinner>Loading...</Spinner> : follower.follows.length}
                   <br></br>
                   팔로워
                </div>
                <div>
-                  {following.length}
+                  {following.loading ? <Spinner>Loading</Spinner> : following.follows.length}
                   <br></br>
                   팔로잉
                </div>
