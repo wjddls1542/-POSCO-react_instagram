@@ -1,3 +1,11 @@
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Button, Container, Input, Modal } from 'reactstrap';
+import { GoDiffAdded } from 'react-icons/go';
+import './Posts.css';
+import '../Profile/ProfileBody.css';
+import { insertPosts, selectMyPost } from '../../store/posts';
+
 const PostsAdd = () => {
    const dispatch = useDispatch();
    const [form, setForm] = useState({
@@ -9,7 +17,7 @@ const PostsAdd = () => {
       setIsOpen(false);
    };
    const openModal = () => {
-      setIsOpen(false);
+      setIsOpen(true);
    };
    const onChangeFile = e => {
       const file = e.target.files[0];
